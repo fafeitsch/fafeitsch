@@ -1,0 +1,68 @@
+<html lang="en">
+	<head>
+		<title>About Fabian Feitsch</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Developer and Algorithmic Enthusiast">
+        <meta name="keywords" content="Fabian Feitsch,würzburg,franken,java,entwickler,developer,go,python,feitsch">
+        <meta name="author" content="Fabian Feitsch">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="resources/style.css" />
+	</head>
+	<body>
+		<article class="content">
+            <img class="portrait" src="image.jpg" alt="Image of Fabian Feitsch" width=200px/>
+			<h1>Contact</h1>
+			<div class="line">Fabian Feitsch</div>
+			<div class="line">Zeller Straße 14</div>
+			<div class="line">97276 Margetshöchheim</div>
+			<div class="line"><span class="desc">Telephone</span> 0931/30197763</div>
+			<div class="line"><span class="desc">E-Mail</span> <a href="mailto:info@fafeitsch.de">info@fafeitsch.de</a></div>
+            <div class="line">When you are visiting this website, the following data is recorded: your IP-adress, your user agent, the site you requested and the time at which you did it. This is done by my provider in order to ensure the service and to defend attacks. Your IP-adress is anonymized after at most four weeks by deleting its last eight bits. The remaining data is kept by my provider for statistical reasons. It cannot be connected to your person any more.</div>
+            <footer><a href="index.html" class="small">Back to Main Page</a></footer>
+		</article><div class="background" aria-hidden="true"><pre><code class="subst"><span class="keyword">package</span> heuristic
+
+<span class="function"><span class="keyword">func</span> <span class="title">start</span><span class="params">(drops <span class="keyword">int</span>, entry api.ClusterPortal, distances floatTriple)</span> <span class="title">float64</span></span> {
+	<span class="keyword">if</span> entry == api.AccessPoint {
+		<span class="keyword">return</span> <span class="number">0</span>
+	}
+	<span class="keyword">return</span> <span class="keyword">float64</span>(drops+<span class="number">1</span>)*(distances.inner) + <span class="keyword">float64</span>(drops+<span class="number">1</span>)*distances.toNext + <span class="keyword">float64</span>(drops)*distances.toNext
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">end</span><span class="params">(picks <span class="keyword">int</span>, exit api.ClusterPortal, distances floatTriple)</span> <span class="title">float64</span></span> {
+	<span class="keyword">if</span> exit == api.ExitPoint {
+		<span class="keyword">return</span> <span class="keyword">float64</span>(picks+<span class="number">1</span>) * distances.toNext
+	}
+	<span class="keyword">return</span> <span class="keyword">float64</span>(picks+<span class="number">1</span>)*distances.toPrevious + <span class="keyword">float64</span>(picks)*distances.toPrevious + <span class="keyword">float64</span>(picks+<span class="number">1</span>)*distances.inner + <span class="keyword">float64</span>(picks+<span class="number">1</span>)*distances.toNext
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">transportCosts</span><span class="params">(distances floatTriple, hopper <span class="keyword">int</span>, bestLeftRightTour <span class="keyword">float64</span>, case3 <span class="keyword">bool</span>)</span> <span class="title">float64</span></span> {
+	<span class="keyword">if</span> case3 {
+		<span class="keyword">return</span> <span class="keyword">float64</span>(hopper) * (distances.inner + distances.toNext)
+	}
+	carry := <span class="keyword">float64</span>(hopper) * (bestLeftRightTour + distances.toNext)
+	extra := distances.toPrevious + (<span class="keyword">float64</span>(hopper)+<span class="number">2</span>)*distances.inner + (<span class="keyword">float64</span>(hopper)+<span class="number">1</span>)*distances.toNext
+	<span class="keyword">return</span> math.Min(carry, extra)
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">drivingDistanceOfTour</span><span class="params">(instance partialClusterInstance, tour []<span class="keyword">int</span>)</span> <span class="title">float64</span></span> {
+	distance := <span class="number">0.0</span>
+	lastRealLocation := tour[<span class="built_in">len</span>(tour)<span class="number">-2</span>]
+	<span class="keyword">if</span> instance.start == api.AccessPoint {
+		distance = distance + instance.FromBorderPoints[tour[<span class="number">1</span>]][<span class="number">0</span>]
+	} <span class="keyword">else</span> {
+		distance = distance + instance.FromBorderPoints[tour[<span class="number">1</span>]][<span class="number">1</span>]
+	}
+	<span class="keyword">if</span> instance.target == api.AccessPoint {
+		distance = distance + instance.ToBorderPoints[lastRealLocation][<span class="number">0</span>]
+	} <span class="keyword">else</span> {
+		distance = distance + instance.ToBorderPoints[lastRealLocation][<span class="number">1</span>]
+	}
+	<span class="keyword">for</span> i := <span class="number">2</span>; i &lt; <span class="built_in">len</span>(tour)<span class="number">-1</span>; i++ {
+		distance = distance + instance.Distances[tour[i<span class="number">-1</span>]][tour[i]]
+	}
+	<span class="keyword">return</span> distance
+}
+
+</code></pre></div>
+	</body>
+</html>
