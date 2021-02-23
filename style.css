@@ -1,43 +1,71 @@
-.content{
-    padding: 10px;
-    z-index:10;
-    background:white;
-    position: absolute;
+.content {
+    z-index: 10;
+    background: white;
     overflow: hidden;
     display: flex;
     align-items: stretch;
-    width: 1000px;
-    top: 50%;
-    left: 50%;
-    transform:translate(-50%, -50%);
+    position: relative;
+    width: 100%;
+    flex-direction: column;
 }
 
 .text-body {
     display: flex;
     flex-direction: column;
+    padding: 10px;
 }
 
 .spacer {
     flex-grow: 1;
 }
 
-img {
-    width: 400px;
-    height: 400px;
-    object-fit: contain;
-    margin-right: 10px;
+@media only screen and (min-width: 1300px) {
+    img {
+        width: 400px;
+        height: 400px;
+        object-fit: contain;
+        margin-right: 10px;
+    }
+
+    .content {
+        position: absolute;
+        padding: 10px;
+        width: 75%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        flex-direction: row;
+    }
 }
 
-.line{
+@media only screen and (max-width: 1300px) and (min-width: 600px) {
+    img {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+        margin-right: 10px;
+    }
+
+    .content {
+        position: absolute;
+        padding: 10px;
+        width: 75%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        flex-direction: row;
+    }
+}
+
+.line {
     margin: 10px 0px 10px 0px;
 }
 
-.desc{
-    font-weight:400;
-    font-size:1.1em;
+.desc {
+    font-weight: 400;
+    font-size: 1.1em;
 }
 
-h1{
+h1 {
     text-transform: uppercase;
     font-weight: 300;
     font-size: 2em;
@@ -45,36 +73,30 @@ h1{
     padding: 0;
 }
 
-.text{
+.text {
     font-family: 'sans-serif';
 }
 
-body{
+body {
     line-height: 1.42857143;
     font-weight: 150;
     font-family: 'sans-serif';
 }
 
-.background{
+.background {
     background-repeat: no-repeat;
     background-color: dimgrey;
     background-size: cover;
     position: fixed;
-    width:100vw;
-    height:100vh;
-    top:0;
-    left:0;
-    z-index:-1;
-    font-size:2em;
-    overflow:hidden;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    font-size: 2em;
+    overflow: hidden;
     color: transparent;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
-
-footer{
-    position: absolute;
-    margin-top: 20px;
-    bottom: 10px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 a {
@@ -97,10 +119,10 @@ a:visited {
 }
 
 .keyword {
-    text-shadow: 0 0 5px rgba(48,95,55,1);
+    text-shadow: 0 0 5px rgba(48, 95, 55, 1);
 }
 
 .title {
-    text-shadow: 0 0 5px rgba(80,162,167,0.8);
+    text-shadow: 0 0 5px rgba(80, 162, 167, 0.8);
 }
 
