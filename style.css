@@ -73,14 +73,10 @@ h1 {
     padding: 0;
 }
 
-.text {
-    font-family: 'sans-serif';
-}
-
 body {
     line-height: 1.42857143;
-    font-weight: 150;
-    font-family: 'sans-serif';
+    font-weight: 250;
+    font-family: Roboto, sans-serif;
 }
 
 .background {
