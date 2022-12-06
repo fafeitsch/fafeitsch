@@ -1,0 +1,105 @@
+<html lang="en">
+  <head>
+    <title>Programmierhöhle</title>
+    <meta content="Code Retreat im Herzen Würzburgs" name="description">
+    <meta content="open source,hobby,code,barcamp,programmer,open" name="keywords">
+    <meta content="Fabian Feitsch" name="author">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="style.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <style>
+      .line {
+          color: black;
+          font-weight: normal;
+      }
+      .desc {
+          font-size: inherit;
+          font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="content">
+      <img alt="Bild der Nische" src="nische.jpg"/>
+      <div class="text-body">
+        <h1><span style="color: red; font-weight: bold">ENTWURF</span> Offene Progammierhöhle #1/2023</h1>
+        <div class="line">Kleines, entspanntes Code Retreat im Herzen Würzburgs: Bringe eigene Projekte mit, schaue anderen über die Schulter, lerne
+          neues!</div>
+        <div class="spacer"></div>
+        <div class="line"><span class="desc">Wann?</span> Freitag, 03.03.2023 ab 17:00 (open end) &amp; Samstag, 04.03.2023 12:00 bis 20:00 Uhr</div>
+        <div class="line"><span class="desc">Wo?</span> <a href="https://meine-nische.de">Meine Nische</a>, Würzburg</div>
+        <div class="line"><span class="desc">Wer?</span> Alle, die Spaß am Programmieren haben und sich gerne mit anderen austauschen</div>
+        <div class="line"><span class="desc">Preis?</span> 25 Euro (Unkostenbeitrag Raummiete, Getränke, Snacks) &mdash; Hauptmahlzeiten sind nicht inbegriffen und werden vor Ort organisiert.</div>
+        <div class="line"><span class="desc">Anmeldung:</span> <a href="mailto:hallo@meine-nische.de">hallo@meine-nische.de</a>, nach der Überweisung des Unkostenbeitrags ist dein Platz reserviert.
+        </div>
+        <div class="line"><span class="desc">Sonstiges:</span> Im Falle einer Absage der Veranstaltung wird der Unkostenbeitrag zurückerstattet.</div>
+        <div class="spacer"></div>
+        <footer><a class="small" href="contact.html">Contact & Privacy</a></footer>
+      </div>
+    </article>
+    <div aria-hidden="true" class="background"><pre><code class="subst"><span class="keyword">package</span> heuristic
+
+<span class="function"><span class="keyword">func</span> <span class="title">start</span>(<span
+  class="params">drops <span
+  class="keyword">int</span>, entry api.ClusterPortal, distances floatTriple)</span> <span
+  class="title">float64</span></span> {
+	<span class="keyword">if</span> entry == api.AccessPoint {
+		<span class="keyword">return</span> <span class="number">0</span>
+	}
+	<span class="keyword">return</span> <span class="keyword">float64</span>(drops+<span class="number">1</span>)*(distances.inner) + <span
+        class="keyword">float64</span>(drops+<span class="number">1</span>)*distances.toNext + <span
+        class="keyword">float64</span>(drops)*distances.toNext
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">end</span><span class="params">(picks <span
+  class="keyword">int</span>, exit api.ClusterPortal, distances floatTriple)</span> <span
+  class="title">float64</span></span> {
+	<span class="keyword">if</span> exit == api.ExitPoint {
+		<span class="keyword">return</span> <span class="keyword">float64</span>(picks+<span class="number">1</span>) * distances.toNext
+	}
+	<span class="keyword">return</span> <span class="keyword">float64</span>(picks+<span class="number">1</span>)*distances.toPrevious + <span
+        class="keyword">float64</span>(picks)*distances.toPrevious + <span
+        class="keyword">float64</span>(picks+<span class="number">1</span>)*distances.inner + <span class="keyword">float64</span>(picks+<span
+        class="number">1</span>)*distances.toNext
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">transportCosts</span><span class="params">(distances floatTriple, hopper <span
+  class="keyword">int</span>, bestLeftRightTour <span class="keyword">float64</span>, case3 <span class="keyword">bool</span>)</span> <span
+  class="title">float64</span></span> {
+	<span class="keyword">if</span> case3 {
+		<span class="keyword">return</span> <span class="keyword">float64</span>(hopper) * (distances.inner + distances.toNext)
+	}
+	carry := <span class="keyword">float64</span>(hopper) * (bestLeftRightTour + distances.toNext)
+	extra := distances.toPrevious + (<span class="keyword">float64</span>(hopper)+<span class="number">2</span>)*distances.inner + (<span
+        class="keyword">float64</span>(hopper)+<span class="number">1</span>)*distances.toNext
+	<span class="keyword">return</span> math.Min(carry, extra)
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">drivingDistanceOfTour</span><span
+  class="params">(instance partialClusterInstance, tour []<span class="keyword">int</span>)</span> <span
+  class="title">float64</span></span> {
+	distance := <span class="number">0.0</span>
+	lastRealLocation := tour[<span class="built_in">len</span>(tour)<span class="number">-2</span>]
+	<span class="keyword">if</span> instance.start == api.AccessPoint {
+		distance = distance + instance.FromBorderPoints[tour[<span class="number">1</span>]][<span
+        class="number">0</span>]
+	} <span class="keyword">else</span> {
+		distance = distance + instance.FromBorderPoints[tour[<span class="number">1</span>]][<span
+        class="number">1</span>]
+	}
+	<span class="keyword">if</span> instance.target == api.AccessPoint {
+		distance = distance + instance.ToBorderPoints[lastRealLocation][<span class="number">0</span>]
+	} <span class="keyword">else</span> {
+		distance = distance + instance.ToBorderPoints[lastRealLocation][<span class="number">1</span>]
+	}
+	<span class="keyword">for</span> i := <span class="number">2</span>; i &lt; <span
+        class="built_in">len</span>(tour)<span class="number">-1</span>; i++ {
+		distance = distance + instance.Distances[tour[i<span class="number">-1</span>]][tour[i]]
+	}
+	<span class="keyword">return</span> distance
+}
+
+</code></pre>
+    </div>
+  </body>
+</html>
